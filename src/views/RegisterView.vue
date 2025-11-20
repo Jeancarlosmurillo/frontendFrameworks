@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import authService from '../services/authService'
 
 export default {
   data() {
@@ -21,12 +21,12 @@ export default {
   methods: {
     async registerUser() {
       try {
-        await axios.post('http://localhost:3000/auth/register', {
-          name: this.name,
+        await authService.register({
+          fullname: this.name,
           email: this.email,
           password: this.password
         })
-        this.$router.push('/verify-email')
+        this.$router.push({ path: '/verify-email', query: { email: this.email } })
       } catch (error) {
         alert('Error al registrarse')
       }

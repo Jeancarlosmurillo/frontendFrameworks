@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import authService from '../services/authService'
 
 export default {
   data() {
@@ -20,10 +20,16 @@ export default {
   methods: {
     async loginUser() {
       try {
-        await axios.post('http://localhost:3000/auth/login', {
+        const { data } = await authService.login({
           email: this.email,
           password: this.password
         })
+        if (data?.token) {
+          this.$store.commit('auth/setToken', data.token)
+        }
+        if (data?.user) {
+          this.$store.commit('auth/setUser', data.user)
+        }
         this.$router.push('/dashboard')
       } catch (error) {
         alert('Credenciales incorrectas')

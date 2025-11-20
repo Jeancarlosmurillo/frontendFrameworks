@@ -1,38 +1,51 @@
 # frontendFrameworks
 
-Este proyecto es la interfaz gráfica que incluye un sistema de autenticación completo (registro, verificación de código, login) y un dashboard principal para la interacción con los datos del usuario.
+Interfaz gráfica (SPA) con un sistema de autenticación completo (registro, verificación por código y login) y un dashboard principal. Consume el microservicio de seguridad del ecosistema MedCore.
 
----
+## Tecnologías
 
-## 🚀 Tecnologías utilizadas
+- **Vite** – entorno de desarrollo y build
+- **Vue 3** – framework de UI
+- **Vue Router** – enrutamiento
+- **Vuex** – manejo del estado global (token de sesión)
+- **Axios** – comunicación con la API REST
 
-### 🖥️ Frontend
-- ⚡ **Vite** – Entorno de desarrollo rápido  
-- 🧩 **Vue 3** – Framework de JavaScript progresivo  
-- 🗃️ **Vuex** – Manejo del estado global  
-- 🎨 **CSS** – Estilos personalizados  
-- 🌐 **Axios** – Comunicación con el backend vía API REST  
+## Flujo de autenticación
 
-## 🔐 Flujo de autenticación
+1. **Registro:** el usuario crea una cuenta (nombre, correo, contraseña).
+2. **Verificación:** ingresa el código enviado a su correo.
+3. **Login:** inicia sesión; el token se guarda en Vuex y `localStorage`.
+4. **Dashboard:** acceso al panel principal.
 
-1. **Registro:** el usuario crea una cuenta enviando su correo y contraseña.  
-2. **Verificación:** el sistema envía un código al correo del usuario y este debe validarlo.  
-3. **Login:** una vez verificado, el usuario puede iniciar sesión normalmente.  
-4. **Dashboard:** acceso al panel principal del sistema.  
+## Configuración
 
----
+Copia el archivo de ejemplo y ajusta la URL del backend si es necesario:
 
-## ⚙️ Instalación y ejecución
-
-### 🧩 Clonar el repositorio
 ```bash
-git clone https://github.com/Jeancarlosmurillo/frontendFrameworks.git
+cp .env.example .env   # en Windows: copy .env.example .env
+```
 
-# cd frontend
+| Variable | Descripción |
+|---|---|
+| `VITE_API_URL` | URL base del microservicio de autenticación |
 
-# npm install
+## Instalación y ejecución
 
-# npm run dev
+```bash
+npm install
+npm run dev      # http://localhost:5173
+npm run build    # build de producción
+npm run preview  # previsualizar el build
+```
 
-# http://localhost:5173/
+## Estructura
 
+```
+src/
+├── App.vue
+├── main.js
+├── router/       # rutas
+├── store/        # Vuex (módulo auth)
+├── services/     # authService (Axios + interceptor de token)
+└── views/        # Register, Login, VerifyEmail, Dashboard
+```

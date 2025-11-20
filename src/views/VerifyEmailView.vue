@@ -10,17 +10,17 @@
 </template>
 
 <script>
-import axios from 'axios'
+import authService from '../services/authService'
 
 export default {
   data() {
-    return { code: '' }
+    return { code: '', email: this.$route.query.email || '' }
   },
   methods: {
     async verifyCode() {
       try {
-        await axios.post('http://localhost:3000/auth/verify-email', { code: this.code })
-        this.$router.push('/dashboard')
+        await authService.verifyEmail({ email: this.email, code: this.code })
+        this.$router.push('/login')
       } catch (error) {
         alert('Código inválido o expirado')
       }
