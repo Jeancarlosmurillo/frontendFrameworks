@@ -24,13 +24,15 @@ export default {
           email: this.email,
           password: this.password
         })
-        if (data?.token) {
-          this.$store.commit('auth/setToken', data.token)
+        // El backend devuelve accessToken (login exitoso) o pide verificación
+        if (data?.accessToken) {
+          this.$store.commit('auth/setToken', data.accessToken)
+          this.$router.push('/dashboard')
+        } else if (data?.step === 'VERIFY_LOGIN') {
+          this.$router.push({ path: '/verify-email', query: { email: this.email } })
+        } else {
+          this.$router.push('/dashboard')
         }
-        if (data?.user) {
-          this.$store.commit('auth/setUser', data.user)
-        }
-        this.$router.push('/dashboard')
       } catch (error) {
         alert('Credenciales incorrectas')
       }

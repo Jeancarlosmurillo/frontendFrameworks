@@ -17,12 +17,24 @@ axios.interceptors.request.use(
 
 export default {
   register({ fullname, email, password }) {
-    return axios.post(`${API_URL}/sign-up`, { fullname, email, password })
+    // El backend espera 'current_password'
+    return axios.post(`${API_URL}/sign-up`, {
+      fullname,
+      email,
+      current_password: password,
+    })
   },
   verifyEmail({ email, code }) {
-    return axios.post(`${API_URL}/verify-email`, { email, code })
+    // El backend espera 'verificationCode'
+    return axios.post(`${API_URL}/verify-email`, {
+      email,
+      verificationCode: code,
+    })
   },
   login({ email, password }) {
-    return axios.post(`${API_URL}/sign-in`, { email, password })
+    return axios.post(`${API_URL}/sign-in`, {
+      email,
+      current_password: password,
+    })
   },
 }
